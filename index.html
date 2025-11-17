@@ -65,6 +65,69 @@
             transition: var(--transition);
         }
 
+        /* Privacy Control Styles */
+        .privacy-control {
+            margin-left: 15px;
+            position: relative;
+        }
+        
+        .privacy-select {
+            background: var(--netflix-gray);
+            color: var(--netflix-light);
+            border: none;
+            padding: 6px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            min-width: 120px;
+        }
+        
+        .privacy-notice {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--netflix-red);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            display: none;
+        }
+        
+        /* Privacy Blur Effects */
+        .privacy-blur-details {
+            filter: blur(8px);
+            pointer-events: none;
+            user-select: none;
+        }
+        
+        .privacy-blur-image {
+            filter: blur(15px);
+            pointer-events: none;
+        }
+        
+        .privacy-hidden {
+            display: none !important;
+        }
+        
+        /* Stalker Mode - Blur everything personal */
+        [data-viewer="stalker"] .privacy-personal-details,
+        [data-viewer="stalker"] .privacy-personal-image {
+            filter: blur(8px);
+            pointer-events: none;
+            user-select: none;
+        }
+        
+        /* Classmates Mode - Blur only image */
+        [data-viewer="classmates"] .privacy-personal-image {
+            filter: blur(15px);
+            pointer-events: none;
+        }
+        
+        /* Recruiter Mode - Show everything (no special styling needed) */
+
         /* Skip to main content link */
         .skip-link {
             position: absolute;
@@ -1608,7 +1671,7 @@
         }
     </style>
 </head>
-<body>
+<body data-viewer="recruiter">
     <!-- Skip to main content link -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
@@ -1620,6 +1683,11 @@
             <div class="loader-dot"></div>
         </div>
         <p>Loading your experience...</p>
+    </div>
+
+    <!-- Privacy Notice -->
+    <div class="privacy-notice" id="privacyNotice">
+        Privacy mode updated
     </div>
 
     <!-- Header -->
@@ -1639,6 +1707,16 @@
                 <li><a href="#blog">Blog</a></li>
                 <li><a href="#hobbies">Hobbies</a></li>
                 <li><a href="#contact">Contact</a></li>
+                
+                <!-- Privacy Control -->
+                <li class="privacy-control">
+                    <select id="privacySelect" class="privacy-select">
+                        <option value="recruiter">Recruiter View</option>
+                        <option value="classmates">Classmates View</option>
+                        <option value="stalker">Stalker View</option>
+                    </select>
+                </li>
+                
                 <li class="language-switcher">
                     <select id="languageSelect">
                         <option value="en">English</option>
@@ -1663,16 +1741,16 @@
             <div class="hero-badge">Available for Internship</div>
             <div class="typing-container">
                 <h1>
-                    <span class="typed-text" id="typed-text"></span>
+                    <span class="typed-text privacy-personal-details" id="typed-text"></span>
                     <span class="cursor">|</span>
                 </h1>
             </div>
-            <p>Building robust and scalable applications with Core Java, Spring Framework, and modern technologies. Passionate about creating innovative solutions that solve real-world problems.</p>
+            <p class="privacy-personal-details">Building robust and scalable applications with Core Java, Spring Framework, and modern technologies. Passionate about creating innovative solutions that solve real-world problems.</p>
             <div class="hero-buttons">
                 <a href="#projects" class="btn btn-primary">View My Work <i class="fas fa-chevron-right"></i></a>
                 <a href="#contact" class="btn btn-secondary">Hire Me <i class="fas fa-paper-plane"></i></a>
                 <div class="resume-options">
-                    <a href="Shubham_Yadav_Resume.pdf" class="btn" download aria-label="Download resume">Download CV <i class="fas fa-download"></i></a>
+                    <a href="Shubham_Yadav_Resume.pdf" class="btn privacy-personal-details" download aria-label="Download resume">Download CV <i class="fas fa-download"></i></a>
                     <button class="btn btn-secondary" id="viewResume">View Resume <i class="fas fa-eye"></i></button>
                 </div>
             </div>
@@ -1702,13 +1780,13 @@
         <h2 class="section-title">About Me</h2>
         <div class="about-content">
             <div class="profile-img-container">
-                <img src="shubham.jpg" alt="Shubham Yadav - Java Developer" class="profile-img">
+                <img src="shubham.jpg" alt="Shubham Yadav - Java Developer" class="profile-img privacy-personal-image">
             </div>
             <div class="about-text">
-                <h3>Shubham Omkar Yadav</h3>
-                <p>Enthusiastic and motivated Java Developer with a strong foundation in Core Java, Spring Framework, and database management. Currently pursuing B.Tech in Computer Engineering at Fr. Conceicao Rodrigues College of Engineering, Mumbai.</p>
-                <p>Eager to apply my academic knowledge and project experience to contribute to an innovative software development team. Seeking a challenging entry-level position to build robust and scalable applications while growing my technical skills.</p>
-                <p>Fluent in English, Hindi, and Marathi with strong communication and collaboration skills.</p>
+                <h3 class="privacy-personal-details">Shubham Omkar Yadav</h3>
+                <p class="privacy-personal-details">Enthusiastic and motivated Java Developer with a strong foundation in Core Java, Spring Framework, and database management. Currently pursuing B.Tech in Computer Engineering at Fr. Conceicao Rodrigues College of Engineering, Mumbai.</p>
+                <p class="privacy-personal-details">Eager to apply my academic knowledge and project experience to contribute to an innovative software development team. Seeking a challenging entry-level position to build robust and scalable applications while growing my technical skills.</p>
+                <p class="privacy-personal-details">Fluent in English, Hindi, and Marathi with strong communication and collaboration skills.</p>
                 
                 <div class="about-stats">
                     <div class="stat">
@@ -2211,7 +2289,7 @@ public class Student {
         <div class="hobbies-grid">
             <div class="hobby-card">
                 <div class="hobby-img-container">
-                    <img src="IMG_20231007_150155.jpg" alt="Photography - Capturing moments through my lens" class="hobby-img" loading="lazy">
+                    <img src="IMG_20231007_150155.jpg" alt="Photography - Capturing moments through my lens" class="hobby-img privacy-personal-image" loading="lazy">
                 </div>
                 <div class="hobby-content">
                     <h4>Photography</h4>
@@ -2238,7 +2316,7 @@ public class Student {
             </div>
             <div class="hobby-card">
                 <div class="hobby-img-container">
-                    <img src="IMG_20240216_205104.jpg" alt="Exploring New Places - Traveling and experiencing cultures" class="hobby-img" loading="lazy">
+                    <img src="IMG_20240216_205104.jpg" alt="Exploring New Places - Traveling and experiencing cultures" class="hobby-img privacy-personal-image" loading="lazy">
                 </div>
                 <div class="hobby-content">
                     <h4>Exploring New Places</h4>
@@ -2247,7 +2325,7 @@ public class Student {
             </div>
             <div class="hobby-card">
                 <div class="hobby-img-container">
-                    <img src="IMG_20231215_151911.jpg" alt="Music & Sound Design - Creating and listening to music" class="hobby-img" loading="lazy">
+                    <img src="IMG_20231215_151911.jpg" alt="Music & Sound Design - Creating and listening to music" class="hobby-img privacy-personal-image" loading="lazy">
                 </div>
                 <div class="hobby-content">
                     <h4>Music & Sound Design</h4>
@@ -2262,14 +2340,14 @@ public class Student {
         <h2 class="section-title">Contact Me</h2>
         <div class="contact-container">
             <div class="contact-info">
-                <div class="contact-item">
+                <div class="contact-item privacy-personal-details">
                     <i class="fas fa-phone"></i>
                     <div>
                         <h3>Phone</h3>
                         <p>+91 7738622310</p>
                     </div>
                 </div>
-                <div class="contact-item">
+                <div class="contact-item privacy-personal-details">
                     <i class="fas fa-envelope"></i>
                     <div>
                         <h3>Email</h3>
@@ -2292,12 +2370,12 @@ public class Student {
                 </div>
                 
                 <div class="contact-options">
-                    <div class="contact-method">
+                    <div class="contact-method privacy-personal-details">
                         <i class="fas fa-calendar"></i>
                         <h4>Schedule a Meeting</h4>
                         <a href="https://calendly.com/shubham-yadav" class="btn">Book Now</a>
                     </div>
-                    <div class="contact-method">
+                    <div class="contact-method privacy-personal-details">
                         <i class="fas fa-comments"></i>
                         <h4>Quick Chat</h4>
                         <p>Available on WhatsApp</p>
@@ -2909,6 +2987,40 @@ SELECT * FROM students;`;
         // Language switcher (placeholder functionality)
         document.getElementById('languageSelect').addEventListener('change', function() {
             alert("Language switching functionality would be implemented with a translation service in a real application.");
+        });
+
+        // Privacy Control Functionality
+        document.getElementById('privacySelect').addEventListener('change', function() {
+            const viewerType = this.value;
+            document.body.setAttribute('data-viewer', viewerType);
+            
+            // Show privacy notice
+            const notice = document.getElementById('privacyNotice');
+            notice.style.display = 'block';
+            notice.textContent = `Privacy mode: ${this.options[this.selectedIndex].text}`;
+            
+            setTimeout(() => {
+                notice.style.display = 'none';
+            }, 3000);
+            
+            // Update the page based on viewer type
+            updatePrivacyView(viewerType);
+        });
+        
+        function updatePrivacyView(viewerType) {
+            // This function can be extended to make more specific changes based on viewer type
+            console.log(`Privacy view updated to: ${viewerType}`);
+            
+            // For stalker view, we might want to hide some additional elements
+            if (viewerType === 'stalker') {
+                // Additional hiding for stalker view if needed
+            }
+        }
+        
+        // Initialize privacy view based on current selection
+        document.addEventListener('DOMContentLoaded', function() {
+            const initialView = document.getElementById('privacySelect').value;
+            updatePrivacyView(initialView);
         });
 
         // Error handling for image loading
